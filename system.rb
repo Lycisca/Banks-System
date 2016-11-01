@@ -29,7 +29,7 @@ class System
     end
   end
 
-  def add_transfer(sender_account, amount, receiver_account, success=nil)
+  def make_transfer(sender_account, amount, receiver_account, success=nil)
     same_bank = sender_account.code_bank == receiver_account.code_bank
 
     arguments = [sender_account, amount, receiver_account]
@@ -37,17 +37,17 @@ class System
 
     transfer.apply(sender_account, receiver_account)
 
-    write_history(*arguments)
+    add_transfer(transfer)
   end
 
   private
 
-  def write_history(sender_account, amount, receiver_account)
-    bank_sender   = @banks.find{ |b| b.code == sender_account.code_bank }
-    bank_receiver = @banks.find{ |b| b.code == receiver_account.code_bank }
+  def add_transfer(transfer)
+    bank_sender   = @banks.find{ |b| b.code == transfer.sender_account.code_bank }
+    bank_receiver = @banks.find{ |b| b.code == transfer.receiver_account.code_bank }
 
     [bank_sender, bank_receiver].each do |bank|
-      bank.send('add_history', sender_account, amount, receiver_account )
+      bank.send('add_transfer', transfer)
     end
 
   end

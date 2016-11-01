@@ -42,7 +42,7 @@ describe System do
     end
 
     it "should return sender_account with 10000 and receiver_account with 21000" do
-      @system.add_transfer(@sender_account, @transfer_amount, @receiver_account)
+      @system.make_transfer(@sender_account, @transfer_amount, @receiver_account)
       @sender_account.amount.must_equal 10000
       @receiver_account.amount.must_equal 21000
     end
@@ -56,7 +56,7 @@ describe System do
     end
 
     it "should return error" do
-      err = proc { @system.add_transfer(@sender_account, @transfer_amount, @receiver_account) }.must_raise RuntimeError
+      err = proc { @system.make_transfer(@sender_account, @transfer_amount, @receiver_account) }.must_raise RuntimeError
       err.message.must_match "You don´t have enought money"
     end
   end
@@ -69,7 +69,7 @@ describe System do
     end
 
     it "should return sender_account without amount (comission + transfer_amount) and receiver_account with 1995" do
-      @system.add_transfer(@sender_account, @transfer_amount, @receiver_account, true)
+      @system.make_transfer(@sender_account, @transfer_amount, @receiver_account, true)
       @sender_account.amount.must_equal 29000
       @receiver_account.amount.must_equal 995
       # puts @system.banks.map(&:transfers).inspect
@@ -84,7 +84,7 @@ describe System do
     end
 
     it "should return error" do
-      err = proc { @system.add_transfer(@sender_account, @transfer_amount, @receiver_account, true) }.must_raise RuntimeError
+      err = proc { @system.make_transfer(@sender_account, @transfer_amount, @receiver_account, true) }.must_raise RuntimeError
       err.message.must_match "You cannot transfer more than 1000 euros"
     end
   end
@@ -97,7 +97,7 @@ describe System do
     end
 
     it "should return error" do
-      err = proc { @system.add_transfer(@sender_account, @transfer_amount, @receiver_account, false) }.must_raise RuntimeError
+      err = proc { @system.make_transfer(@sender_account, @transfer_amount, @receiver_account, false) }.must_raise RuntimeError
       err.message.must_match "Transfer failures"
     end
   end

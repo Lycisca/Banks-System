@@ -2,6 +2,8 @@
 
 class Transfer
 
+  attr_reader :sender_account, :amount, :receiver_account
+
   def initialize(sender_account, amount, receiver_account)
     @sender_account = sender_account
     @amount = amount
@@ -9,13 +11,10 @@ class Transfer
   end
 
   def apply(origin_account, destination_account)
-    valid_transfer = valid_transfer(origin_account.amount)
-
-    if valid_transfer
+    if valid_transfer(origin_account.amount)
       origin_account.amount -= (@amount + @comission)
       destination_account.amount += @amount
     end
-    valid_transfer
   end
 
   private

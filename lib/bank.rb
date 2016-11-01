@@ -16,12 +16,12 @@ class Bank
     accounts << Account.new(number, amount)
   end
 
-  def add_history(sender_account, amount, receiver_account)
+  def add_transfer(transfer)
     transfers << {
-      datetime: DateTime.now().strftime("%d/%m/%Y"),
-      origin_account: sender_account,
-      destination_account: receiver_account,
-      amount: amount
+      datetime:            DateTime.now().strftime("%d/%m/%Y"),
+      origin_account:      transfer.sender_account,
+      destination_account: transfer.receiver_account,
+      amount:              transfer.amount
     }
   end
 end
